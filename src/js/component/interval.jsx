@@ -1,87 +1,62 @@
-import React from "react";
-import { PropTypes } from "prop-types";
+// Timer.js
+import React from 'react';
+
+let totalSeconds = 0;
+let intervalId;
+
+const UpdateDisplay = () => {
+
+  
+
+  const d1 = Math.floor(totalSeconds % 10);
+  const d2 = Math.floor((totalSeconds / 10) % 10);
+  const d3 = Math.floor((totalSeconds / 100) % 10);
+  const d4 = Math.floor((totalSeconds / 1000) % 10);
+  const d5 = Math.floor((totalSeconds / 10000) % 10);
+  const d6 = Math.floor((totalSeconds / 100000) % 10);
 
 
-let i = 0; // Inicializamos los segundos
-let m = 0; // Inicializamos los minutos
-let h = 0;
-let d = 0;
-let w = 0
-let start;
-let reset
-
+  if (document.querySelector(".seconds")) document.querySelector(".seconds").textContent = d1;
+  if (document.querySelector(".minutes")) document.querySelector(".minutes").textContent = d2;
+  if (document.querySelector(".hours")) document.querySelector(".hours").textContent = d3;
+  if (document.querySelector(".days")) document.querySelector(".days").textContent = d4;
+  if (document.querySelector(".weeks")) document.querySelector(".weeks").textContent = d5;
+};
 
 const Interval = () => {
+  totalSeconds++;
+  UpdateDisplay();
+};
 
-  
-  document.querySelector(".seconds").textContent = i < 10 ? '0' + i : i;
-  document.querySelector(".minutes").textContent = m < 10 ? '0' + m : m;
-  document.querySelector(".hours").textContent = h < 10 ? '0' + h : h;
-  document.querySelector(".days").textContent = d < 10 ? '0' + d : d;
-  document.querySelector(".weeks").textContent = w < 10 ? '0' + w : w;
-
- 
-  i++;
-
-
-  if (i === 60) {
-    i = 0; 
-    m++;   
+const startTimer = () => {
+  if (!intervalId) {
+    intervalId = setInterval(Interval, 1000); 
   }
+};
 
-  if (m === 60) {
-    m = 0;
-    h++;
-  }
+const stopTimer = () => {
+  clearInterval(intervalId); 
+  intervalId = null;
+};
 
-  if (h === 24) {
-    h = 0;
-    d++;
-  }
-
-  if (d === 7) {
-    d = 0;
-    w++;
-  }
-
-
-}
-
-const Timer = () => { 
-    
-  start = setInterval(() => {
-  Interval(); 
-}, 1000);
-
-}
-
-const Stop = () => {
-
-  clearInterval(start)
-  
-  }
+const resetTimer = () => {
+  clearInterval(intervalId); 
+  intervalId = null;
+  totalSeconds = 0;
+  UpdateDisplay(); 
+};
 
 
 
-  // const Reset = () => {
-  //   clearInterval(start); 
-  
- 
-  //   i = 0;
-  //   m = 0;
-  //   h = 0;
-  //   d = 0;
-  //   w = 0;
+export { startTimer, stopTimer, resetTimer, UpdateDisplay };
 
-  //   document.querySelector(".seconds").textContent = '00';
-  //   document.querySelector(".minutes").textContent = '00';
-  //   document.querySelector(".hours").textContent = '00';
-  //   document.querySelector(".days").textContent = '00';
-  //   document.querySelector(".weeks").textContent = '00';
-    
-  // };
 
-  export { Interval, Stop, Timer }
+
+
+
+
+
+
 
 
 
